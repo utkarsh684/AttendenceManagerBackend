@@ -55,4 +55,12 @@ public class SubjectService {
                 )).collect(Collectors.toList());
     }
 
+
+    public Subject getSubjectByName(String subjectName) {
+        return subjectRepository.findByName(subjectName);
+    }
+
+    public void saveSubject(Subject subject) {
+        subjectRepository.save(subject);
+    }
 }

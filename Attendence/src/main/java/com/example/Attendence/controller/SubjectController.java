@@ -1,9 +1,12 @@
 package com.example.Attendence.controller;
 
+import com.example.Attendence.dto.AttendenceRequest;
 import com.example.Attendence.dto.SubjectSummaryDTO;
 import com.example.Attendence.entity.Subject;
 import com.example.Attendence.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,6 +54,26 @@ public class SubjectController {
     @GetMapping("/summary")
     public List<SubjectSummaryDTO> getSubjectSummary() {
         return subjectService.getSubjectSummaries();
+    }
+
+    @PostMapping("/attendence")
+    public ResponseEntity<String> markAttendence(@RequestBody AttendenceRequest request){
+        String subjectName= request.getName();
+        String status= request.getStatus();
+        Subject subject = subjectService.getSubjectByName(subjectName);
+
+        if (subject == null) {
+            return ResponseEntity.badRequest().body("Subject not found");
+        }
+
+        subject.setTotal(subject.getTotal()+1);
+        if(status=="present"){
+            subject.setPresent(subject.getPresent()+1);
+        }
+
+        subjectService.saveSubject(subject);
+
+        return ResponseEntity.ok("Attendance marked as " + status);
     }
 
 }
