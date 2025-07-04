@@ -2,13 +2,15 @@ package com.example.Attendence.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class SubjectSummaryDTO {
-    private Long id;
+@NoArgsConstructor
+public class AttendenceRequest {
+
     private String name;
-    private int totalClasses;
-    private int present;
-    private double percentage;
+    private String date;
+    private String status;
+
 }
